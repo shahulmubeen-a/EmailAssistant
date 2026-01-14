@@ -18,12 +18,14 @@ class EmailRAG:
 
         vector_store = FAISS.load_local(
             index_path,
-            allow_dangerous_deserialization=True
+            allow_dangerous_deserialization=True,
         )
         return EmailRAG(vector_store)
 
     @staticmethod
-    def build_from_documents(documents: List[Any], embeddings: Any) -> "EmailRAG":
+    def build_from_documents(
+        documents: List[Any], embeddings: Any
+    ) -> "EmailRAG":
         from langchain_community.vectorstores import FAISS
 
         vector_store = FAISS.from_documents(documents, embeddings)
