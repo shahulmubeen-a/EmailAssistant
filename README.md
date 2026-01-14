@@ -30,10 +30,16 @@ The EmailAssistant employs a modular architecture, with key components including
 
 ```mermaid
 graph TD
-    A[Incoming Email] --> B{Categorise Email}
-    B --> C{Retrieve Context (FAISS)}
-    C --> D[Draft Reply]
-    D --> E[Outgoing Draft]
+    A[Incoming Email]
+    B{Categorise Email}
+    C{Retrieve Context (FAISS)}
+    D[Draft Reply]
+    E[Outgoing Draft]
+
+    A --> B
+    B --> C
+    C --> D
+    D --> E
 
     subgraph LangGraph Workflow
         B
