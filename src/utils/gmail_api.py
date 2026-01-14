@@ -4,7 +4,11 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 from googleapiclient.discovery import build
 
-SCOPES = ["https://www.googleapis.com/auth/gmail.readonly", "https://www.googleapis.com/auth/gmail.send"]
+SCOPES = [
+    "https://www.googleapis.com/auth/gmail.readonly",
+    "https://www.googleapis.com/auth/gmail.send",
+]
+
 
 def get_gmail_service():
     creds = None
@@ -18,23 +22,30 @@ def get_gmail_service():
         if creds and creds.expired and creds.refresh_token:
             creds.refresh(Request())
         else:
-            flow = InstalledAppFlow.from_client_secrets_file(
-                "credentials.json", SCOPES)
+            flow = InstalledAppFlow.from_client_secrets_file("credentials.json", SCOPES)
             creds = flow.run_local_server(port=0)
         # Save the credentials for the next run
-        with open("token.json", "w") as token: 
+        with open("token.json", "w") as token:
             token.write(creds.to_json())
-    
+
     service = build("gmail", "v1", credentials=creds)
     return service
 
+
 def list_emails(service, user_id="me"):
-    results = service.users().messages().list(userId=user_id, labelIds=["INBOX"]).execute()
+    results = (
+        service.users().messages().list(userId=user_id, labelIds=["INBOX"]).execute()
+    )
     messages = results.get("messages", [])
     return messages
 
+
 def get_email_content(service, msg_id, user_id="me"):
-    msg = service.users().messages().get(userId=user_id, id=msg_id, format="full").execute()
+    msg = (
+        service.users()
+        .messages()
+        .get(userId=user_id, id=msg_id, format="full")
+        .execute()
+    )
     # This is a simplified example; full parsing of email content can be complex
     return msg
-

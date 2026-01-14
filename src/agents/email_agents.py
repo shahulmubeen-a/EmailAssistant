@@ -1,7 +1,8 @@
 from langchain_openai import ChatOpenAI
-from langchain_core.messages import HumanMessage, SystemMessage
+from langchain_core.messages import HumanMessage
 from src.core.state import AgentState
 from src.core.rag import EmailRAG
+
 
 class EmailAssistantAgents:
     def __init__(self):
@@ -14,7 +15,7 @@ class EmailAssistantAgents:
         """
         email_content = state["email_content"]
         prompt = f"""
-        You are an expert AI Assistant for a construction firm. 
+        You are an expert AI Assistant for a construction firm.
         Categorise the following email into one of these categories:
         - Procurement: Related to buying materials, equipment, or services.
         - Safety: Related to site safety, inspections, or compliance.
@@ -22,7 +23,7 @@ class EmailAssistantAgents:
         - General: Any other business communication.
 
         Email Content: {email_content}
-        
+
         Respond with ONLY the category name.
         """
         response = self.llm.invoke([HumanMessage(content=prompt)])
@@ -43,15 +44,15 @@ class EmailAssistantAgents:
         email_content = state["email_content"]
         category = state["category"]
         context = "\n".join(state["context"])
-        
+
         prompt = f"""
-        You are an AI Assistant for a construction firm. 
+        You are an AI Assistant for a construction firm.
         Draft a professional reply to the following email.
-        
+
         Category: {category}
         Context from past records: {context}
         Original Email: {email_content}
-        
+
         Ensure the tone is professional and addresses the specific points in the email.
         Use British English spelling (e.g., 'optimise', 'organisation', 'programme').
         """
