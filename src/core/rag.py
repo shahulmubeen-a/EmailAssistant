@@ -24,7 +24,8 @@ class EmailRAG:
 
     @staticmethod
     def build_from_documents(
-        documents: List[Any], embeddings: Any
+        documents: List[Any],
+        embeddings: Any,
     ) -> "EmailRAG":
         from langchain_community.vectorstores import FAISS
 
